@@ -4,13 +4,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/wait.h>
 
+/* Base dir for all music */
+#define AUD_BASE "/aud"
 
+extern char **environ;
 void unix_error(const char *);
 void free_files(char **, int, int);
 void sigint_handler(int);
 
-extern char **environ;
+char *get_aud_base(void);
 
 
 void unix_error(const char *msg)
@@ -28,7 +32,6 @@ free_files(char **ptr, int i, int n)
     for( ; i < n; i++) {
         free(ptr[i]);
     }
-
     free(ptr);
     exit(1);
 }
@@ -36,10 +39,15 @@ free_files(char **ptr, int i, int n)
 
 void
 sigint_handler(int sig)
-{
-    kill(0, SIGKILL);
-
+{   kill(0, SIGKILL);
     return;
+}
+
+/* TODO: make config file instead of macro */
+char *
+get_aud_base(void)
+{
+    return AUD_BASE;
 }
 
 
@@ -47,7 +55,7 @@ int
 main(int argc, char **argv)
 {
     char buf[256];
-    char *dir = "/stuff/aud";
+    char *dir = get_aud_base();
 
     if(argc > 1 && argv[1]) {
         dir = argv[1];
@@ -57,9 +65,9 @@ main(int argc, char **argv)
         }
     }
 
-    chdir(dir);
+    chdir(dir); /* Restrict to files under audio base directory */
     if(!strstr(getcwd(buf, 256), "aud")) {
-        printf("%s: Given directory not in aud/\n", buf);
+        printf("%s: Given directory not in /aud\n", buf);
         exit(-1);
     }
 
@@ -93,8 +101,9 @@ main(int argc, char **argv)
 
         /* infans */
         if(pid == 0) {
-            int ret = execlp("mplayer", " -novideo", /* 4 files per call */
-                             files[i], files[i+1], files[i+2], files[i+3], (char*)NULL);
+            execlp("mplayer", " -novideo", /* 4 files per call */
+                   files[i], files[i+1], files[i+2], files[i+3],
+            (char*)NULL);
             unix_error("couldn't play song");
             exit(-1);
         }
