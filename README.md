@@ -6,9 +6,12 @@ since mplayer doesn't like to do that recursively.
 
 configuration
 ===
-Edit bigmix.sh and specify the folder AUD\_BASE under which all music is
+Edit bigmix.sh and specify the folder $AUD\_BASE under which all music is
 located.  This folder will also be the default if no valid location is
 specifed when called from command line.
+
+You should specify $DBFILE as well, which isa text file to hold the generated
+playlist.
 
 You can also modify some args to `mplayer` at the end of the script.
 `-vo null` is set, for instance to disable video from appearing when a

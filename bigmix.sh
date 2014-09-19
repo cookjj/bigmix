@@ -48,14 +48,3 @@ rm $DBFILE
 find -maxdepth 7 -type f -printf "$AUD/%p\n" | sort --parallel=$NCORES -R > $DBFILE
 mplayer -vo null -playlist $DBFILE
 
-
-
-
-
-
-
-
-
-
-
-
