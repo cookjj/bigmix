@@ -1,14 +1,18 @@
-`bigmix'
+`bigmix`
 ===
-Shuffle play specific dir and its subdirs with `mplayer' since mplayer
-doesn't like to do that recursively.
+Bash script to shuffle play specific dir and its subdirs with `mplayer`
+since mplayer doesn't like to do that recursively.
 
 
 configuration
 ===
-Edit bigmix.sh and specify the folder under which all music is located.
-This folder will also be the default if no valid location is specifed
-when called from command line.
+Edit bigmix.sh and specify the folder AUD\_BASE under which all music is
+located.  This folder will also be the default if no valid location is
+specifed when called from command line.
+
+You can also modify some args to `mplayer` at the end of the script.
+`-vo null` is set, for instance to disable video from appearing when a
+.flv file is accessed for instance.
 
 
 depends
