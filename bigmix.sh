@@ -1,7 +1,7 @@
 #!/bin/bash
-AUD_BASE=/aud
+AUD_BASE=/bpool/aud
 AUD=$AUD_BASE
-DBFILE=/bpool/stuff/tmp/zzz_db
+DBFILE=/tmp/zzz_db
 NCORES=4
 
 if [[ ! -d "$AUD_BASE" ]];
@@ -34,7 +34,7 @@ then
         pwdstr=${AUD:0:$audbaselen}
         if [ "$pwdstr" != "$AUD_BASE" ]
         then
-#            echo "Supplied subdir not in AUD_BASE -- using $AUD_BASE."
+            echo "Supplied subdir not in AUD_BASE -- using $AUD_BASE."
             AUD=$AUD_BASE
         fi
     else
@@ -46,5 +46,6 @@ cd $AUD
 # rm the db file list if it's been used allready
 rm $DBFILE
 find -maxdepth 7 -type f -printf "$AUD/%p\n" | sort --parallel=$NCORES -R > $DBFILE
+
 mplayer -vo null -playlist $DBFILE
 
