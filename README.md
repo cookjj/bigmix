@@ -10,8 +10,10 @@ Edit bigmix.sh and specify the folder $AUD\_BASE under which all music is
 located.  This folder will also be the default if no valid location is
 specifed when called from command line.
 
-You should specify $DBFILE as well, which isa text file to hold the generated
-playlist.
+Other important variables -- see vars at top of script:
+$DBFILE -- text file path to hold generated playlist.
+$NCORES -- number of cores to use in randomisation
+
 
 You can also modify some args to `mplayer` at the end of the script.
 `-vo null` is set, for instance to disable video from appearing when a
