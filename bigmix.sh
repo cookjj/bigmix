@@ -44,7 +44,6 @@ fi
 cd $AUD
 
 # rm the db file list if it's been used allready
-rm $DBFILE
 find -maxdepth 7 -type f -printf "$AUD/%p\n" | sort --parallel=$NCORES -R > $DBFILE
 
 mplayer -vo null -playlist $DBFILE
