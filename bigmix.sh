@@ -1,8 +1,12 @@
 #!/bin/bash
 AUD_BASE=/bpool/aud
 AUD=$AUD_BASE
+DBFILE_tmp=/tmp/zzz_db.tmp
 DBFILE=/tmp/zzz_db
 NCORES=4
+
+# if in a softlinked dir, goto real abs path
+cd `pwd -P`
 
 if [[ ! -d "$AUD_BASE" ]];
 then
@@ -44,7 +48,8 @@ fi
 cd $AUD
 
 # rm the db file list if it's been used allready
-find -maxdepth 7 -type f -printf "$AUD/%p\n" | sort --parallel=$NCORES -R > $DBFILE
+find -maxdepth 7 -type f -printf "$AUD/%p\n" | sort --parallel=$NCORES -R > $DBFILE_tmp
+sort --parallel=$NCORES -R $DBFILE_tmp > $DBFILE
 
 mplayer -vo null -playlist $DBFILE
 
